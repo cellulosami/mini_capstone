@@ -14,6 +14,11 @@ class Api::ProductsController < ApplicationController
   end
 
   def display_one
-    render json: {message: "Hello there General Kenobi."}
+    @product = {}
+    @product[:name] = Product.first[:name]
+    @product[:price] = Product.first[:price]
+    @product[:description] = Product.first[:description]
+    @product[:image_url] = Product.first[:image_url]
+    render "one_product.json.jb"
   end
 end
