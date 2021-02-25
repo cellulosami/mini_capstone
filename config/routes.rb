@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     get "/one_product" => "products#display_one"
 
     get "/search_by_id" => "products#display_by_id"
+    get "/search_by_id/:id" => "products#display_by_id"
   end
 end
