@@ -33,4 +33,8 @@ class Api::ProductsController < ApplicationController
     @product_info[:image_url] = product[:image_url]
     render 'display_by_id.json.jb'
   end
+
+  def display
+    render "display.json.jb"
+  end
 end

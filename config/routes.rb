@@ -12,5 +12,7 @@ Rails.application.routes.draw do
 
     get "/search_by_id" => "products#display_by_id"
     get "/search_by_id/:id" => "products#display_by_id"
+
+    get "search_by/:attribute/:value" => "products#display"
   end
 end
