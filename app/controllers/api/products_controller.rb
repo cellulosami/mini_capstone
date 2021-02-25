@@ -35,6 +35,15 @@ class Api::ProductsController < ApplicationController
   end
 
   def display
+    user_input_attribute = params[:attribute].to_sym
+    user_input_value = params[:value]
+    product = Product.find_by(user_input_attribute => user_input_value)
+
+    @product_info = {}
+    @product_info[:name] = product[:name]
+    @product_info[:price] = product[:price]
+    @product_info[:description] = product[:description]
+    @product_info[:image_url] = product[:image_url]
     render "display.json.jb"
   end
 end
