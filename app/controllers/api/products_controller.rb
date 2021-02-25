@@ -21,4 +21,16 @@ class Api::ProductsController < ApplicationController
     @product[:image_url] = Product.first[:image_url]
     render "one_product.json.jb"
   end
+
+  def display_by_id
+    user_input_id = params[:id].to_i
+    product = Product.find_by(id: user_input_id)
+
+    @product_info = {}
+    @product_info[:name] = product[:name]
+    @product_info[:price] = product[:price]
+    @product_info[:description] = product[:description]
+    @product_info[:image_url] = product[:image_url]
+    render 'display_by_id.json.jb'
+  end
 end
