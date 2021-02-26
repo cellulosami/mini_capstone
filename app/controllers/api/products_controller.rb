@@ -31,6 +31,8 @@ class Api::ProductsController < ApplicationController
   end
 
   def destroy
+    @product = Product.find_by(id: params[:id])
+    Product.find_by(id: params[:id]).destroy
     render 'destroy.json.jb'
   end
 end

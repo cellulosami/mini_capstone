@@ -1,1 +1,8 @@
-"murderous intent"
+{
+  message: "The following product has been deleted.",
+  id: @product[:id],
+  name: @product[:name],
+  description: @product[:description],
+  price: @product[:price],
+  image_url: @product[:image_url]
+}
