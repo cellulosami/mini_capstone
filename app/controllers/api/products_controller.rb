@@ -1,25 +1,7 @@
 class Api::ProductsController < ApplicationController
-  def display_all
-    @all_products = []
-    Product.all.each do |product|
-      current_product = {}
-      current_product[:name] = product[:name]
-      current_product[:price] = product[:price]
-      current_product[:description] = product[:description]
-      current_product[:image_url] = product[:image_url]
-      @all_products << current_product
-    end
-
-    render "all_products.json.jb"
-  end
-
-  def display_one
-    @product = {}
-    @product[:name] = Product.first[:name]
-    @product[:price] = Product.first[:price]
-    @product[:description] = Product.first[:description]
-    @product[:image_url] = Product.first[:image_url]
-    render "one_product.json.jb"
+  def index
+    @products = Product.all
+    render 'index.json.jb'
   end
 
   def display_by_id
@@ -31,11 +13,11 @@ class Api::ProductsController < ApplicationController
     @product_info[:price] = product[:price]
     @product_info[:description] = product[:description]
     @product_info[:image_url] = product[:image_url]
-    render 'display_by_id.json.jb'
+    render 'display.json.jb'
   end
 
   def display
-    user_input_attribute = params[:attribute].to_sym
+    user_input_attribute = params[:attribute]
     user_input_value = params[:value]
     product = Product.find_by(user_input_attribute => user_input_value)
 
