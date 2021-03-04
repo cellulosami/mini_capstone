@@ -29,8 +29,11 @@ class Api::ProductsController < ApplicationController
     @product[:description] = params[:description] || @product[:description]
     @product[:price] = params[:price] || @product[:price]
     @product[:image_url] = params[:image_url] || @product[:image_url]
-    @product.save
-    render 'show.json.jb'
+    if @product.save
+      render 'show.json.jb'
+    else
+      render json: {errors: @product.errors.full_messages}
+    end
   end
 
   def destroy
