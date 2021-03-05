@@ -7,10 +7,12 @@ class Api::ProductsController < ApplicationController
     @products = @products.order("#{params[:sort]} #{params[:sort_order].upcase}")
 
     if params[:discount]
-      params[:discount_price] = params[:discount_price].to_i || 20
+      params[:discount_price] = params[:discount_price] || 20
+      params[:discount_price] = params[:discount_price].to_i
       @products = @products.where("price < #{params[:discount_price]}")
     end
 
+    p params
     render 'index.json.jb'
   end
 
