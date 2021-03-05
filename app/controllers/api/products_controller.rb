@@ -11,6 +11,9 @@ class Api::ProductsController < ApplicationController
       params[:discount_price] = params[:discount_price].to_i
       @products = @products.where("price < #{params[:discount_price]}")
     end
+    if params[:search]
+      @products = @products.where("name ILIKE '%#{params[:search]}%'")
+    end
 
     p params
     render 'index.json.jb'
