@@ -7,9 +7,12 @@ class Api::ProductsController < ApplicationController
     else
       @products = @products.order("id ASC")
     end
+
     if params[:discount]
-      @products = @products.where("price < 20")
+      params[:discount_price] = params[:discount_price].to_i || 20
+      @products = @products.where("price < #{params[:discount_price]}")
     end
+
     render 'index.json.jb'
   end
 
