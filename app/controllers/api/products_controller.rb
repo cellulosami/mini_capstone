@@ -1,12 +1,10 @@
 class Api::ProductsController < ApplicationController
   def index
     @products = Product.all
-    if params[:sort]
-      params[:sort_order] = params[:sort_order] || "asc"
-      @products = @products.order("#{params[:sort]} #{params[:sort_order].upcase}")
-    else
-      @products = @products.order("id ASC")
-    end
+
+    params[:sort] = params[:sort] || "id"
+    params[:sort_order] = params[:sort_order] || "asc"
+    @products = @products.order("#{params[:sort]} #{params[:sort_order].upcase}")
 
     if params[:discount]
       params[:discount_price] = params[:discount_price].to_i || 20
