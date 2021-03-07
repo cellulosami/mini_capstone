@@ -7,5 +7,6 @@
   tax: product.tax,
   total: product.total,
   image_url: product[:image_url],
-  quantity: product[:quantity]
+  quantity: product[:quantity],
+  supplier_id: product[:supplier_id]
 }
