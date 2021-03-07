@@ -1,12 +1,12 @@
 {
-  id: product[:id],
-  name: product[:name],
-  description: product[:description],
-  price: product[:price],
+  id: product.id,
+  name: product.name,
+  description: product.description,
+  price: product.price,
   is_discounted?: product.is_discounted?,
   tax: product.tax,
   total: product.total,
-  image_url: product[:image_url],
-  quantity: product[:quantity],
-  supplier_id: product[:supplier_id]
+  image_url: product.image_url,
+  quantity: product.quantity,
+  supplier: product.supplier.name
 }
