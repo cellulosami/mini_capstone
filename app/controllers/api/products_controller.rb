@@ -16,7 +16,7 @@ class Api::ProductsController < ApplicationController
       @products = @products.where("price < #{params[:discount_price]}")
     end
     
-    p params
+    p current_user
     render 'index.json.jb'
   end
 
