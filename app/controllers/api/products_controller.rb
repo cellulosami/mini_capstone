@@ -1,19 +1,23 @@
 class Api::ProductsController < ApplicationController
   def index
-    if params[:search]
-      @products = Product.where("name ILIKE '%#{params[:search]}%'")
+    if current_user
+      if params[:search]
+        @products = Product.where("name ILIKE '%#{params[:search]}%'")
+      else
+        @products = Product.all
+      end
+
+      params[:sort] = params[:sort] || "id"
+      params[:sort_order] = params[:sort_order] || "asc"
+      @products = @products.order("#{params[:sort]} #{params[:sort_order].upcase}")
+
+      if params[:discount]
+        params[:discount_price] = params[:discount_price] || 20
+        params[:discount_price] = params[:discount_price].to_i
+        @products = @products.where("price < #{params[:discount_price]}")
+      end
     else
-      @products = Product.all
-    end
-
-    params[:sort] = params[:sort] || "id"
-    params[:sort_order] = params[:sort_order] || "asc"
-    @products = @products.order("#{params[:sort]} #{params[:sort_order].upcase}")
-
-    if params[:discount]
-      params[:discount_price] = params[:discount_price] || 20
-      params[:discount_price] = params[:discount_price].to_i
-      @products = @products.where("price < #{params[:discount_price]}")
+      @products = []
     end
     
     p current_user
