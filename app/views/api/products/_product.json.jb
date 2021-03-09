@@ -6,7 +6,7 @@
   is_discounted?: product.is_discounted?,
   tax: product.tax,
   total: product.total,
-  image_url: product.image_url,
+  images: product.images,
   quantity: product.quantity,
   supplier: product.supplier.name
 }
