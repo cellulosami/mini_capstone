@@ -20,9 +20,9 @@ class Api::OrdersController < ApplicationController
         product_id: params[:product_id],
         user_id: current_user.id,
         quantity: params[:quantity],
-        subtotal: @product.price,
-        tax: @product.tax,
-        total: @product.total
+        subtotal: (@product.price * params[:quantity].to_i),
+        tax: (@product.tax * params[:quantity].to_i),
+        total: (@product.total * params[:quantity].to_i)
       )
       @order.save
       render "show.json.jb"
