@@ -25,7 +25,7 @@ class Api::OrdersController < ApplicationController
       carted_product.update(order_id: @order.id)
     end
     @order.calculate_subtotal
-    
+
     render "show.json.jb"
   end
 end
