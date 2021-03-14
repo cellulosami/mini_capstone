@@ -2,12 +2,8 @@ class Api::OrdersController < ApplicationController
   before_action :authenticate_user
   
   def index
-    if current_user
-      @orders = Order.where("user_id = ?", current_user.id)
-      render "index.json.jb"
-    else
-      render json: { message: "the walls have eyes" }
-    end
+    @orders = Order.where("user_id = ?", current_user.id)
+    render "index.json.jb"
   end
 
   def show
@@ -16,21 +12,20 @@ class Api::OrdersController < ApplicationController
   end
 
   def create
-    if current_user
-      @product = Product.find_by(id: params[:product_id])
-      @order = Order.new(
-        product_id: params[:product_id],
-        user_id: current_user.id,
-        quantity: params[:quantity],
-        subtotal: (@product.price * params[:quantity].to_i),
-        tax: (@product.tax * params[:quantity].to_i),
-        total: (@product.total * params[:quantity].to_i)
-      )
-      @order.save
-      render "show.json.jb"
-    else
-      render json: { message: "yo what the hell" }
+    @carted_products = CartedProduct.where("status = 'carted' AND user_id = #{current_user.id}")
+
+    @order = Order.new(
+      user_id: current_user.id
+    )
+    @order.save
+
+    @carted_products.each do |carted_product|
+      carted_product.update(status: "purchased")
+      carted_product.update(order_id: @order.id)
     end
+
+    p @carted_products.map
+    render "show.json.jb"
   end
 end
 
