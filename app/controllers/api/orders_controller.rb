@@ -8,6 +8,7 @@ class Api::OrdersController < ApplicationController
 
   def show
     @order = Order.find_by(id: params[:id])
+    @order.calculate_subtotal
     render "show.json.jb"
   end
 
@@ -23,8 +24,8 @@ class Api::OrdersController < ApplicationController
       carted_product.update(status: "purchased")
       carted_product.update(order_id: @order.id)
     end
-
-    p @carted_products.map
+    @order.calculate_subtotal
+    
     render "show.json.jb"
   end
 end
