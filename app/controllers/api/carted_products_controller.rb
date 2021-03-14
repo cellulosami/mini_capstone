@@ -11,4 +11,9 @@ class Api::CartedProductsController < ApplicationController
     @carted_product.save
     render "show.json.jb"
   end
+
+  def index
+    @carted_products = CartedProduct.where("status = 'carted' AND user_id = #{current_user.id}")
+    render "index.json.jb"
+  end
 end
