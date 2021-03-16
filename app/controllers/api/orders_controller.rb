@@ -8,15 +8,24 @@ class Api::OrdersController < ApplicationController
 
   def show
     @order = Order.find_by(id: params[:id])
-    @order.calculate_subtotal
     render "show.json.jb"
   end
 
   def create
     @carted_products = CartedProduct.where("status = 'carted' AND user_id = #{current_user.id}")
 
+    @subtotal = 0
+    @carted_products.each do |carted_product|
+      @subtotal += carted_product.product.price * carted_product.quantity
+    end
+    @tax = (@subtotal*0.09).round(2)
+    @total = @subtotal + @tax
+
     @order = Order.new(
-      user_id: current_user.id
+      user_id: current_user.id,
+      subtotal: @subtotal,
+      tax: @tax,
+      total: @total
     )
     @order.save
 
@@ -24,11 +33,7 @@ class Api::OrdersController < ApplicationController
       carted_product.update(status: "purchased")
       carted_product.update(order_id: @order.id)
     end
-    @order.calculate_subtotal
 
     render "show.json.jb"
   end
 end
-
-#i have manual product creation. now i need:
-# - automatic calculation of subtotal, tax, and total
